@@ -18,24 +18,18 @@
 
 ## 📌 Overview
 
-Offline OAuth 2.0 / OpenID Connect client & provider configuration auditor
+OAuthX is an offline auditor for OAuth 2.0 and OpenID Connect configuration, defaulting to read-only with no network access unless --fetch is given. A tolerant JSON loader and framework adapters let it ingest Authorization Server metadata, client registrations and exports from Keycloak, Azure AD, Google, Spring Security, Django OAuth Toolkit and Authlib. More than 40 rules are mapped to RFC 9700, RFC 6819, RFC 7636 and OIDC Core with a weighted score and A…F grade.
 
 ---
 
 ## ✨ Features
 
-- Offline auditor for OAuth 2.0 / OIDC configuration (read-only, no network unless --fetch is given)
-- Tolerant JSON loader — BOM, comments, trailing commas, single quotes, JSON fragments; never crashes
-- Authorization Server metadata audit (/.well-known/openid-configuration, RFC 8414)
-- Client registration audit (RFC 7591 / OIDC DCR)
-- Framework adapters — Keycloak client & realm export, Azure AD app manifest, Google client_secrets.json, Spring Security OAuth (properties / YAML), Django OAuth Toolkit settings, Authlib register() calls
-- Redirect-URI list analyzer (http, wildcards, loopback in prod, fragments, custom schemes)
-- Authorize / token request sample analyzer (state, nonce, PKCE, response_type, secrets in URL)
-- 40+ rules mapped to RFC 9700 (OAuth Security BCP), RFC 6819, RFC 7636, OIDC Core and CWE
-- Weighted score + A…F grade, severity filter, CI gate
-- Export TXT / Markdown / JSON / CSV / SARIF 2.1.0
-- Optional HTTPS fetch of well-known metadata (--fetch)
-- Built-in self-test (--demo) with expected detections
+- Audits AS metadata (RFC 8414) and client registrations (RFC 7591 / OIDC DCR)
+- Framework adapters: Keycloak, Azure AD, Google, Spring, Django OAuth, Authlib
+- Redirect-URI analysis (http, wildcards, loopback-in-prod, custom schemes)
+- Authorize/token request analysis for state, nonce, PKCE and secrets in URLs
+- 40+ rules mapped to RFC 9700/6819/7636, OIDC Core and CWE with scoring
+- Optional HTTPS metadata fetch (--fetch) and export TXT/MD/JSON/CSV/SARIF
 
 ---
 
@@ -49,7 +43,10 @@ Offline OAuth 2.0 / OpenID Connect client & provider configuration auditor
 ## 🚀 Usage
 
 ```bash
-./OAuthX
+./OAuthX --metadata openid-configuration.json
+./OAuthX --client keycloak-client.json --env production --fail-on high
+./OAuthX --scan ./ --format sarif -o report.sarif
+./OAuthX --help
 ```
 
 ---
